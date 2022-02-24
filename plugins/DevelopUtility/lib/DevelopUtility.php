@@ -2,6 +2,21 @@
 class DevelopUtility {
 
     /**
+     * プラグインディレクトリへのルート相対パスを算出する
+     *
+     * @param Prototype $app
+     * @return string
+     */
+    public static function get_plugin_relative_url( $app ): string {
+        $plugin_dir_array = array_filter( $app->plugin_dirs, function ( $dir ) {
+            return strpos( $dir, get_class() ) !== false;
+        });
+        $plugin_dir = count( $plugin_dir_array ) > 0 ? array_shift( $plugin_dir_array ) : '';
+        $plugin_relative_url = str_replace( $app->pt_dir . DS, '', $plugin_dir );
+        return $plugin_relative_url;
+    }
+
+    /**
      * リレーション元IDの取得
      *
      * 階層モデルなどのIDから参照元（リレーション元）のオブジェクトIDを取得する
